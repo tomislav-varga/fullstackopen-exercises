@@ -1,1 +1,1 @@
-### In this repo you can find the my solutions on exercises from the fullstackopen.com site
+### In this repo you can find my solutions for the exercises from the fullstackopen.com site
