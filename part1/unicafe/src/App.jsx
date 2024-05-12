@@ -9,7 +9,6 @@ const StatisticLine = ({ text, value }) => {
 }
 
 const Statistics = ({ good, neutral, bad, all, average, positive }) => {
-  /// ...
   return(
     <div>
       <table>
@@ -19,7 +18,7 @@ const Statistics = ({ good, neutral, bad, all, average, positive }) => {
           <StatisticLine text="bad" value ={bad} />
           <StatisticLine text="all" value ={all} />
           <StatisticLine text="average" value ={average.toFixed(2)} />
-          <StatisticLine text="positive" value ={positive.toFixed(2)} />
+          <StatisticLine text="positive %" value ={positive.toFixed(2)} />
         </tbody>
       </table>
     </div>
