@@ -2,16 +2,14 @@ import { useState } from 'react'
 
 const Statistics = (props) => {
   return (
-    <table>
-      <tbody>
-        <Statistic text="good" value={props.good} />
-        <Statistic text="neutral" value={props.neutral} />
-        <Statistic text="bad" value={props.bad} />
-        <Statistic text="all" value={props.all} />
-        <Statistic text="average" value={props.average} />
-        <Statistic text="positive" value={props.positive} />
-      </tbody>
-    </table>
+    <>
+      <p>good {props.good}</p>
+      <p>neutral {props.neutral}</p>
+      <p>bad {props.bad}</p>
+      <p>all {props.all}</p>
+      <p>average {props.average}</p>
+      <p>positive {props.positive}%</p>
+    </>
   )
 }
 
@@ -23,6 +21,7 @@ const App = () => {
 
   const average = (good *1 + neutral * 0 + bad * -1) / (good + neutral + bad)
   const positive = (good / (good + neutral + bad)) * 100
+  const all = good + neutral + bad
 
   const handleGoodClick = () => {
     setGood(good + 1)
@@ -43,12 +42,8 @@ const App = () => {
       <button onClick={handleNeutralClick}>Neutral</button>
       <button onClick={handleBadClick}>Bad</button>
       <h1>Statistics</h1>
-      <p>good {good}</p> 
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {good + neutral + bad}</p>
-      <p>average {average}</p>
-      <p>positive {positive} %</p>
+      <Statistics good={good} neutral={neutral} bad={bad} all={all} 
+      average={average} positive={positive} />
     </div>
   )
 }
