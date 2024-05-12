@@ -28,6 +28,9 @@ const App = () => {
       <p>{good}</p> 
       <p>{neutral}</p>
       <p>{bad}</p>
+      <p></p>
+      <p></p>
+      <p></p>
     </div>
   )
 }
