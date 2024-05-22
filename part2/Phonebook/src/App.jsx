@@ -11,12 +11,13 @@ const App = () => {
   const [persons, setPersons] = useState(personsArray)
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [searchQuery, setNewSearch] = useState('')
 
   const addNameAndNumber = (event) => {
     event.preventDefault()
     const nameExists = persons.some(person => person.name === newName)
     if (!nameExists) {
-      setPersons(persons.concat({ name: newName, number: newNumber }))
+      setPersons(persons.concat({ id: persons.length + 1, name: newName, number: newNumber }))
       setNewName('')
       setNewNumber('')
     } else {
@@ -34,9 +35,20 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+  const handleSearchChange = (event) => {
+    console.log(event.target.value)
+    setNewSearch(event.target.value)
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
+      <div className="">
+        filter shown with: 
+        <input id="input-search" placeholder="search for name" 
+        value={searchQuery} onChange={handleSearchChange} />
+      </div>
+      <h2>add a new</h2>
       <form id="form-1" onSubmit={addNameAndNumber}>
         <div>
           name: <input id="input-name" value={newName} 
@@ -52,7 +64,8 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       <ul>
-        {persons.map(person => <li key={person.name}>{person.name} {person.number}</li>)}
+      {persons.filter(person => person.name.toLowerCase().includes(searchQuery.toLowerCase())
+      ).map(person => <li key={person.name}>{person.name} {person.number}</li>)}
       </ul>
     </div>
   )
