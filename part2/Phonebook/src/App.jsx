@@ -1,6 +1,5 @@
 import { useState } from 'react'
 
-
 const App = () => {
   const personsArray = [
     { name: 'Arto Hellas' }
