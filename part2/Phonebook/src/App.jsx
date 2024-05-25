@@ -1,9 +1,8 @@
-import { useState } from 'react'
-import { useEffect } from 'react'
-import axios from 'axios'
+import { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import personService from './services/persons'
 
 const App = () => {
   
@@ -12,34 +11,26 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [searchQuery, setNewSearch] = useState('')
 
-  const getAll = () => {
-    axios
-     .get('http://localhost:3001/persons')
-     .then(response => {
-        console.log(response.data)
-        setPersons(response.data)
-      })
-  }
-  const create = newObject => {
-    axios
-     .post('http://localhost:3001/persons', newObject)
-     .then(response => {
-        console.log(response.data)
-        setPersons(persons.concat({ id: persons.length + 1, name: newName, number: newNumber }))
-      })
-  }
-
   useEffect(() => { 
-    getAll()
+    personService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
+      })
   }, [])
 
   const addNameAndNumber = (event) => {
     event.preventDefault()
     const nameExists = persons.some(person => person.name === newName)
     if (!nameExists) {
-      create({ name: newName, number: newNumber })
-      setNewName('')
-      setNewNumber('')
+      personService
+        .create({ name: newName, number: newNumber })
+          .then(returnedPerson => {
+            console.log(returnedPerson)
+            setPersons(persons.concat(returnedPerson))
+            setNewName('')
+            setNewNumber('')
+          })
     } else {
       alert(`${newName} is already added to phonebook`)
     }
