@@ -43,7 +43,7 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
-  const handleSearchChange = (event) => {
+  const handleSearchQuery = (event) => {
     console.log(event.target.value)
     setNewSearch(event.target.value)
   }
@@ -51,7 +51,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Filter searchQuery={searchQuery} handleSearchChange={handleSearchChange} />
+      <Filter searchQuery={searchQuery} handleSearchChange={handleSearchQuery} />
       <h2>add a new</h2>
       <PersonForm newName={newName} newNumber={newNumber} addNameAndNumber={addNameAndNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
