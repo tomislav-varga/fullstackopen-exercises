@@ -12,20 +12,32 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [searchQuery, setNewSearch] = useState('')
 
-  useEffect(() => { 
+  const getAll = () => {
     axios
      .get('http://localhost:3001/persons')
      .then(response => {
         console.log(response.data)
         setPersons(response.data)
       })
+  }
+  const create = newObject => {
+    axios
+     .post('http://localhost:3001/persons', newObject)
+     .then(response => {
+        console.log(response.data)
+        setPersons(persons.concat({ id: persons.length + 1, name: newName, number: newNumber }))
+      })
+  }
+
+  useEffect(() => { 
+    getAll()
   }, [])
 
   const addNameAndNumber = (event) => {
     event.preventDefault()
     const nameExists = persons.some(person => person.name === newName)
     if (!nameExists) {
-      setPersons(persons.concat({ id: persons.length + 1, name: newName, number: newNumber }))
+      create({ name: newName, number: newNumber })
       setNewName('')
       setNewNumber('')
     } else {
