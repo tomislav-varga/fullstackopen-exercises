@@ -26,12 +26,12 @@ const App = () => {
     if (!nameExists) {
       personService
         .create({ name: newName, number: newNumber })
-          .then(returnedPerson => {
-            console.log(returnedPerson)
-            setPersons(persons.concat(returnedPerson))
-            setNewName('')
-            setNewNumber('')
-          })
+        .then(returnedPerson => {
+          console.log(returnedPerson)
+          setPersons(persons.concat(returnedPerson))
+          setNewName('')
+          setNewNumber('')
+        })
     } else if (nameExists && !numberExists) {
       const personToUpdate = persons.find(person => person.name === newName)
       if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
