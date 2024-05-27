@@ -3,6 +3,7 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import personService from './services/persons'
+import Notification from './components/Notification'
 
 const App = () => {
   
@@ -10,7 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchQuery, setNewSearch] = useState('')
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [successMessage, setSuccessMessage] = useState(null)
 
   useEffect(() => { 
     personService
@@ -32,6 +33,10 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+          setSuccessMessage(`Added ${newName}`)
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 3000)
         })
     } else if (nameExists && !numberExists) {
       const personToUpdate = persons.find(person => person.name === newName)
@@ -42,6 +47,10 @@ const App = () => {
             setPersons(persons.map(person => person.id === personToUpdate.id? returnedPerson : person))
             setNewName('')
             setNewNumber('')
+            setSuccessMessage(`Updated Number to ${newNumber}`)
+            setTimeout(() => {
+              setSuccessMessage(null)
+            }, 3000)
           })
         }
     } else {
@@ -56,6 +65,10 @@ const App = () => {
        .deletePerson(id)
        .then(() => {
           setPersons(persons.filter(person => person.id!== id))
+          setSuccessMessage(`Deleted ${personToDelete.name}`)
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 3000)
         })
     }
   }
@@ -78,6 +91,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={successMessage} />
       <Filter searchQuery={searchQuery} handleSearchChange={handleSearchQuery} />
       <h2>add a new</h2>
       <PersonForm newName={newName} newNumber={newNumber} addNameAndNumber={addNameAndNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />
