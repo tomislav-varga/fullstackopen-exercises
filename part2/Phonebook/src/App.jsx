@@ -74,17 +74,14 @@ const App = () => {
   }
 
   const handleNameChange = (event) => {
-    console.log(event.target.value)
     setNewName(event.target.value)
   }
 
   const handleNumberChange = (event) => {
-    console.log(event.target.value)
     setNewNumber(event.target.value)
   }
 
   const handleSearchQuery = (event) => {
-    console.log(event.target.value)
     setNewSearch(event.target.value)
   }
 
