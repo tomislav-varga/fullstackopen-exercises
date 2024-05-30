@@ -3,7 +3,8 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import personService from './services/persons'
-import Notification from './components/Notification'
+import SuccessNotification from './components/SucessNotification'
+import ErrorNotification from './components/ErrorNotification'
 
 const App = () => {
   
@@ -12,6 +13,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [searchQuery, setNewSearch] = useState('')
   const [successMessage, setSuccessMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => { 
     personService
@@ -52,6 +54,14 @@ const App = () => {
               setSuccessMessage(null)
             }, 3000)
           })
+          .catch(error => {
+            console.log(error.response.data)
+            setErrorMessage(`Information of ${personToUpdate.name} has already been removed from server`)
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 3000)
+            setPersons(persons.filter(person => person.id!== personToUpdate.id))
+          })
         }
     } else {
       alert(`${newName} is already added to phonebook`)
@@ -88,7 +98,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={successMessage} />
+      <SuccessNotification message={successMessage} />
+      <ErrorNotification message={errorMessage} />
       <Filter searchQuery={searchQuery} handleSearchChange={handleSearchQuery} />
       <h2>add a new</h2>
       <PersonForm newName={newName} newNumber={newNumber} addNameAndNumber={addNameAndNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />
