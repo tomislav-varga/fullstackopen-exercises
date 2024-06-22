@@ -19,29 +19,40 @@ const App =  () => {
         console.log(error)
       })
   }, [])
-  
-  console.log(countries)
+
   const handleSearchQuery = (event) => {
     setSearchQuery(event.target.value)
-    setFilteredCountries(countries.filter(country => country.name.toLowerCase().includes(event.target.value.toLowerCase())))
+    setFilteredCountries(countries.filter(country => country.name.common.toLowerCase().includes(event.target.value.toLowerCase())))
   }
 
-  const Content = () => {
+  const View = () => {
     if (filteredCountries.length > 10) {
       return <p>Too many matches, specify another filter</p>
     
-    } else if ( (countries.length > 2 && countries.length < 10) || filteredCountries.length === 0) {
+    } else if ( (filteredCountries.length > 2 && filteredCountries.length < 10) || filteredCountries.length === 0) {
       return (
         <div>
-          {filteredCountries.map(country => <p key={country.name}>{country.name} <button onClick={() => setSelectedCountry(country)}>show</button></p>)}
+          {filteredCountries.map(country => <p key={country.name.common}>{country.name.common}</p>)}
         </div>
       )
     } else if (filteredCountries.length === 1) {
-      return null
-    } else {
-      return null
-    }
+      return (
+        <div>
+          <h2>{filteredCountries[0].name.common}</h2>
+          <p>Capital: {filteredCountries[0].capital}</p>
+          <p>Population: {filteredCountries[0].population}</p>
+          <h3>Languages</h3>
+          <ul>
+            {Object.values(filteredCountries[0].languages).map((language, index) => <li key={index}>{language}</li>)}          
+          </ul>
+          <p style={{ fontSize: '100px' }}>{filteredCountries[0].flag}</p>
+        </div>
+      )
+    } 
+    else {
+      return <p>No matches found</p>
   }
+}
 
   return (
     <div>
@@ -49,7 +60,7 @@ const App =  () => {
       <form>
         find countries <input value={searchQuery} onChange={handleSearchQuery} />
       </form>
-      <Content />
+      <View />
     </div>
   )
 }
