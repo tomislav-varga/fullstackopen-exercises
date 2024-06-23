@@ -1,6 +1,6 @@
 import React from 'react'
 
-const selectedCountry = ( {selectedCountry} ) => {
+const SelectedCountry = ( {selectedCountry} ) => {
     if (selectedCountry) {
       return (
         <div>
@@ -20,4 +20,4 @@ const selectedCountry = ( {selectedCountry} ) => {
   }
 }
 
-export default selectedCountry
+export default SelectedCountry
