@@ -21,6 +21,10 @@ const App = () => {
       .then(initialPersons => {
         setPersons(initialPersons)
       })
+      .catch(error => {
+        console.log(error.response.data.error)
+        setErrorMessage(error.response.data.error)
+      })
   }, [])
 
   const addNameAndNumber = (event) => {
@@ -38,6 +42,13 @@ const App = () => {
           setSuccessMessage(`Added ${newName}`)
           setTimeout(() => {
             setSuccessMessage(null)
+          }, 3000)
+        })
+        .catch(error => {
+          console.log(error)
+          setErrorMessage(`Person Validation failed: ${error.response.data}`)
+          setTimeout(() => {
+            setErrorMessage(null)
           }, 3000)
         })
     } else if (nameExists && !numberExists) {
