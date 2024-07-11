@@ -7,5 +7,13 @@ Content-Type: application/json
     "url": "test",
     "likes": 0
 }
+###
+
+GET http://localhost:3003/api/blogs/
+
+###
+
+GET http://localhost:3003/api/blogs/668e55a2422fcfef847a939c
+
     
     
