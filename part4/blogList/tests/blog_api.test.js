@@ -1,4 +1,4 @@
-const { test, after, beforeEach } = require('node:test')
+const { test, describe, after, beforeEach } = require('node:test')
 const assert = require('node:assert')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
@@ -33,6 +33,21 @@ test('blogs have identifier field id', async () => {
     assert.equal(typeof blog.id, 'string', 'id field is not a string')
   })
 })
+
+test('POST /api/blogs adds a new blog', async () => {
+
+    await api
+        .post('/api/blogs')
+        .send(helper.listWithOneBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+    const response = await api.get('/api/blogs')
+
+    assert.strictEqual(response.body.length, helper.blogsListAll.length + 1)
+
+})
+
 
 after(async () => {
     await mongoose.connection.close()
