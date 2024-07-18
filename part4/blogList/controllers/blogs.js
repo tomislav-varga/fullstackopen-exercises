@@ -20,13 +20,17 @@ blogRouter.get('/:id',(req, res, next) => {
 })
 
 blogRouter.post('/', async (request, response) => {
-  const body = request.body
+  const { title, author, url, likes } = request.body
+
+  if (!title || !url) {
+    return response.status(400).json({ error: 'Title and URL must be provided' })
+  }
 
   const blog = new Blog({
-    title: body.title,
-    author: body.author,
-    url: body.url,
-    likes: body.likes !== undefined ? body.likes : 0,
+      title: title,
+      author: author,
+      url: url,
+      likes: likes !== undefined ? likes : 0,
   })
 
   try {

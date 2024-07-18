@@ -24,7 +24,7 @@ test('GET /api/blogs returns all blogs', async () => {
     assert.equal(response.body.length, helper.blogsListAll.length)
 })
 
-test('blogs have identifier field id', async () => {
+test('GET blogs have identifier field id', async () => {
     const response = await api
       .get('/api/blogs')
 
@@ -35,10 +35,18 @@ test('blogs have identifier field id', async () => {
 })
 
 test('POST /api/blogs adds a new blog', async () => {
+    const listWithOneBlog = {
+            _id: '5a422aa71b54a676234d17f8',
+            title: 'Go To Statement Considered Harmful',
+            author: 'Edsger W. Dijkstra',
+            url: 'https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf',
+            likes: 5,
+            __v: 0
+          }
 
     await api
         .post('/api/blogs')
-        .send(helper.listWithOneBlog)
+        .send(listWithOneBlog)
         .expect(201)
         .expect('Content-Type', /application\/json/)
 
@@ -60,6 +68,16 @@ test('POST /api/blogs defaults to 0 if likes property is missing', async () => {
   
     assert.strictEqual(addedBlog.likes, 0)
   })
+
+test('POST /api/blogs responds with 400 if title or url is missing', async () => {
+    const response = await api
+        .post('/api/blogs')
+        .send({ author: 'Test author', likes: 10 })
+        .expect(400)
+        .expect('Content-Type', /application\/json/)
+    
+    assert.ok(response.body.error)
+})
 
 
 after(async () => {
