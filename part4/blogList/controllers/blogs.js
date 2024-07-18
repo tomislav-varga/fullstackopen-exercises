@@ -19,19 +19,22 @@ blogRouter.get('/:id',(req, res, next) => {
       .catch(err => next(err))
 })
 
-blogRouter.post('/', (req, res, next) => {
-    const { title, author, url, likes } = req.body
-    const blog = new Blog({
-        title: title,
-        author: author,
-        url: url,
-        likes: likes,
-    })
-    blog.save()
-      .then(result => {
-        res.status(201).json(result)
-      })
-      .catch(err => next(err))
+blogRouter.post('/', async (request, response) => {
+  const body = request.body
+
+  const blog = new Blog({
+    title: body.title,
+    author: body.author,
+    url: body.url,
+    likes: body.likes !== undefined ? body.likes : 0,
+  })
+
+  try {
+    const savedBlog = await blog.save()
+    response.status(201).json(savedBlog)
+  } catch (error) {
+    response.status(400).json({ error: error.message })
+  }
 })
 
 module.exports = blogRouter
