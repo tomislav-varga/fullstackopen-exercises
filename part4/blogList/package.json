@@ -9,6 +9,7 @@
     "test": "NODE_ENV=test node --test"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
