@@ -79,7 +79,23 @@ test('POST /api/blogs responds with 400 if title or url is missing', async () =>
     assert.ok(response.body.error)
 })
 
+test('DELETE /api/blogs/:id removes a blog', async () => {
+    const blogToDelete = helper.blogsListAll[0]
+    
+    await api
+       .delete(`/api/blogs/${blogToDelete._id}`)
+       .expect(204)
+
+    const response = await api.get('/api/blogs')
+
+    assert.strictEqual(response.body.length, helper.blogsListAll.length - 1)
+
+    const contents = response.body.map(r => r.title)
+    assert(!contents.includes(blogToDelete.title))
+})
+
 
 after(async () => {
     await mongoose.connection.close()
 })
+
