@@ -81,7 +81,7 @@ test('POST /api/blogs responds with 400 if title or url is missing', async () =>
 
 test('DELETE /api/blogs/:id removes a blog', async () => {
     const blogToDelete = helper.blogsListAll[0]
-    
+
     await api
        .delete(`/api/blogs/${blogToDelete._id}`)
        .expect(204)
@@ -94,6 +94,24 @@ test('DELETE /api/blogs/:id removes a blog', async () => {
     assert(!contents.includes(blogToDelete.title))
 })
 
+test('PUT /api/blogs/:id updates a blog', async () => {
+    const blogToUpdate = helper.blogsListAll[0]
+    const updatedBlog = {...blogToUpdate, likes: 15 }
+
+    await api
+       .put(`/api/blogs/${blogToUpdate._id}`)
+       .send(updatedBlog)
+       .expect(200)
+       .expect('Content-Type', /application\/json/)
+
+    const response = await api.get('/api/blogs')
+    const updatedBlogs = response.body
+    console.log(updatedBlogs)
+
+    assert.strictEqual(updatedBlogs.length, helper.blogsListAll.length)
+
+    assert.strictEqual(updatedBlogs[0].likes, 15)
+})
 
 after(async () => {
     await mongoose.connection.close()
