@@ -5,7 +5,8 @@ Content-Type: application/json
     "title": "test",
     "author": "test",
     "url": "test",
-    "likes": 0
+    "likes": 0,
+    "user": "66ae524b5897017db4ff5ba2"
 }
 ###
 
@@ -18,7 +19,8 @@ Content-Type: application/json
     "author": "Edsger W. Dijkstra",
     "url": "https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf",
     "likes": "5",
-    "__v": "0"
+    "__v": "0",
+    "user": "66ae524b5897017db4ff5ba2"
   }
 ###
 POST http://localhost:3003/api/users
@@ -30,11 +32,24 @@ Content-Type: application/json
     
   }
 ###
+
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "jdoe123",
+    "name": "Jane Doe",
+    "password": "qwerty123"
+  }
+###
 DELETE http://localhost:3003/api/blogs/669a261ebfe6c654e471e169
 
 
 ###
 GET http://localhost:3003/api/users/
+
+###
+GET http://localhost:3003/api/blogs/
 
 ###
 

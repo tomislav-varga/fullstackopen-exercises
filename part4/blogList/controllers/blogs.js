@@ -1,10 +1,11 @@
 const blogRouter = require('express').Router()
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 blogRouter.get('/', async (req, res) => {
-  Blog.find({}).then(blogs => {
-    res.json(blogs)
-  })
+  const blogs = await Blog
+    .find({}).populate('user', { name: 1 })
+  res.json(blogs)
 })
 
 blogRouter.get('/:id', async (req, res, next) => {
@@ -21,21 +22,28 @@ blogRouter.get('/:id', async (req, res, next) => {
 })
 
 blogRouter.post('/', async (request, response) => {
-  const { title, author, url, likes } = request.body
+  const { title, author, url, likes, user } = request.body
 
   if (!title || !url) {
     return response.status(400).json({ error: 'Title and URL must be provided' })
   }
+
+  const userExists = await User.findById(user)
+  console.log(userExists.id)
 
   const blog = new Blog({
       title: title,
       author: author,
       url: url,
       likes: likes !== undefined ? likes : 0,
+      user: userExists.id
   })
 
   try {
     const savedBlog = await blog.save()
+    userExists.blogs = userExists.blogs.concat(savedBlog._id)
+    await userExists.save()
+    
     response.status(201).json(savedBlog)
   } catch (error) {
     response.status(400).json({ error: error.message })

@@ -40,7 +40,7 @@ describe('when there is initially one user in db', () => {
   })
 })
 
-describe('login tests', () => {
+describe('when a property needed to create a user is missing', () => {
 
     beforeEach(async () => {
         await User.deleteMany({})
@@ -145,8 +145,6 @@ describe('login tests', () => {
       })
 
 })
-
-
 
 after(async () => {
     await mongoose.connection.close()
