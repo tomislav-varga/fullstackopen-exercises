@@ -25,16 +25,16 @@ POST http://localhost:3003/api/users
 Content-Type: application/json
 
 {
-    "username": "mluukkai",
-    "name": "Matti Luukkainen",
-    "password": "salainen"
+    "username": "bert",
+    "name": "Matti Luukkainen"
+    
   }
 ###
 DELETE http://localhost:3003/api/blogs/669a261ebfe6c654e471e169
 
 
 ###
-GET http://localhost:3003/api/blogs/
+GET http://localhost:3003/api/users/
 
 ###
 

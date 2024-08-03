@@ -1,9 +1,12 @@
-const { test, describe, beforeEach } = require('node:test')
+const { test, describe, beforeEach, after } = require('node:test')
 const assert = require('node:assert')
 const bcrypt = require('bcrypt')
+const supertest = require('supertest')
+const mongoose = require('mongoose')
 const helper = require('../utils/test_helper')
 const User = require('../models/user')
-
+const app = require('../app')
+const api = supertest(app)
 describe('when there is initially one user in db', () => {
   beforeEach(async () => {
     await User.deleteMany({})
@@ -36,3 +39,115 @@ describe('when there is initially one user in db', () => {
     assert(usernames.includes(newUser.username))
   })
 })
+
+describe('login tests', () => {
+
+    beforeEach(async () => {
+        await User.deleteMany({})
+    
+        const passwordHash = await bcrypt.hash('sekret', 10)
+        const user = new User({ username: 'root', passwordHash })
+    
+        await user.save()
+    })
+
+    test('creation fails with too short password', async () => {
+        const usersAtStart = await helper.usersInDb()
+    
+        const newUser = {
+          username: 'mluukkai2',
+          name: 'Matti Luukkainen',
+          password: 'se',
+        }
+    
+        await api
+         .post('/api/users')
+         .send(newUser)
+         .expect(400)
+         .expect('Content-Type', /application\/json/)
+    
+        const usersAtEnd = await helper.usersInDb()
+        assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+      })
+    
+    test('creation fails with too short username', async () => {
+        const usersAtStart = await helper.usersInDb()
+    
+        const newUser = {
+          username: 'm',
+          name: 'Matti Luukkainen',
+          password: 'sekret',
+        }
+    
+        await api
+         .post('/api/users')
+         .send(newUser)
+         .expect(400)
+         .expect('Content-Type', /application\/json/)
+    
+        const usersAtEnd = await helper.usersInDb()
+        assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+      })
+    
+    test('creation fails with same username', async () => {
+        const usersAtStart = await helper.usersInDb()
+    
+        const newUser = {
+          username: 'root',
+          name: 'Matti Luukkainen',
+          password: 'sekret',
+        }
+    
+        await api
+         .post('/api/users')
+         .send(newUser)
+         .expect(400)
+         .expect('Content-Type', /application\/json/)
+    
+        const usersAtEnd = await helper.usersInDb()
+        assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+      })
+    
+    test('creation fails with missing username', async () => {
+        const usersAtStart = await helper.usersInDb()
+    
+        const newUser = {
+          name: 'Matti Luukkainen',
+          password: 'sekret',
+        }
+    
+        await api
+         .post('/api/users')
+         .send(newUser)
+         .expect(400)
+         .expect('Content-Type', /application\/json/)
+    
+        const usersAtEnd = await helper.usersInDb()
+        assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+      })
+    
+    test('creation fails with missing password', async () => {
+        const usersAtStart = await helper.usersInDb()
+    
+        const newUser = {
+          username: 'mluukkai3',
+          name: 'Matti Luukkainen',
+        }
+    
+        await api
+         .post('/api/users')
+         .send(newUser)
+         .expect(400)
+         .expect('Content-Type', /application\/json/)
+    
+        const usersAtEnd = await helper.usersInDb()
+        assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+      })
+
+})
+
+
+
+after(async () => {
+    await mongoose.connection.close()
+  })
