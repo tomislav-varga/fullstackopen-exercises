@@ -1,8 +1,7 @@
 const jwt = require('jsonwebtoken')
 const blogRouter = require('express').Router()
 const Blog = require('../models/blog')
-const User = require('../models/user')
-const { tokenExtractor } = require('../utils/middleware')
+const middleware = require('../utils/middleware')
 
 blogRouter.get('/', async (req, res) => {
   const blogs = await Blog
@@ -23,7 +22,7 @@ blogRouter.get('/:id', async (req, res, next) => {
   }
 })
 
-blogRouter.post('/', async (request, response) => {
+blogRouter.post('/', middleware.userExtractor, async (request, response) => {
 
   const { title, author, url, likes } = request.body
   
@@ -33,7 +32,7 @@ blogRouter.post('/', async (request, response) => {
     return response.status(401).json({ error: 'token invalid' })
   }
 
-  const userExists = await User.findById(decodedToken.id)
+  const userExists = request.user
 
   if (!title || !url) {
     return response.status(400).json({ error: 'Title and URL must be provided' })
@@ -59,13 +58,13 @@ blogRouter.post('/', async (request, response) => {
   }
 })
 
-blogRouter.delete('/:id', async (req, res, next) => {
+blogRouter.delete('/:id', middleware.userExtractor, async (req, res, next) => {
   const decodedToken = jwt.verify(req.token, process.env.SECRET)
   if (!decodedToken.id) {
     return response.status(401).json({ error: 'token invalid' })
   }
 
-  const userExists = await User.findById(decodedToken.id)
+  const userExists = req.user
 
   try {
     const deletedBlog = await Blog.findByIdAndDelete(req.params.id)
