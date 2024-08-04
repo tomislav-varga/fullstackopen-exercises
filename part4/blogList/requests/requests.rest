@@ -6,7 +6,7 @@ Content-Type: application/json
     "author": "test",
     "url": "test",
     "likes": 0,
-    "user": "66ae524b5897017db4ff5ba2"
+    "user": "66ade5819e9c6418e16f3c4e"
 }
 ###
 
@@ -20,7 +20,7 @@ Content-Type: application/json
     "url": "https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf",
     "likes": "5",
     "__v": "0",
-    "user": "66ae524b5897017db4ff5ba2"
+    "user": "66ade5819e9c6418e16f3c4e"
   }
 ###
 POST http://localhost:3003/api/users
@@ -34,6 +34,16 @@ Content-Type: application/json
 ###
 
 POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "jdoe123",
+    "name": "Jane Doe",
+    "password": "qwerty123"
+  }
+###
+
+POST http://localhost:3003/login
 Content-Type: application/json
 
 {

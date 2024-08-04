@@ -114,6 +114,7 @@ test('PUT /api/blogs/:id updates a blog', async () => {
 })
 
 after(async () => {
+    await Blog.deleteMany({})
     await mongoose.connection.close()
 })
 
