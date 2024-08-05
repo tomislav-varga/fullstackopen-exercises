@@ -35,7 +35,7 @@ beforeEach(async () => {
         .send(newUser)
 
     const result = await api
-        .post('/api/login')
+        .post('/login')
         .send(newUser)
     
     token = result.body.token
@@ -67,8 +67,8 @@ describe('POST, adding a blog', () => {
         
         const response = await api
             .post('/api/blogs')
-            .set('Authorization', `Bearer ${token}`)
             .send(newBlog)
+            .set('Authorization', `Bearer ${token}`)
             .expect(201)
             .expect('Content-Type', /application\/json/);
     
@@ -84,8 +84,8 @@ describe('POST, adding a blog', () => {
 
         const response = await api
           .post('/api/blogs')
-          .set('Authorization', 'Bearer invalid_token')
           .send(newBlog)
+          .set('Authorization', 'Bearer invalid token')
           .expect(401)
           .expect('Content-Type', /application\/json/);
       
@@ -96,6 +96,7 @@ describe('POST, adding a blog', () => {
         await api
           .post('/api/blogs')
           .send({ title: 'Test title', author: 'Test author', url: 'testurl.com' })
+          .set('Authorization', `Bearer ${token}`)
           .expect(201)
           .expect('Content-Type', /application\/json/)
       
@@ -110,28 +111,12 @@ describe('POST, adding a blog', () => {
         const response = await api
             .post('/api/blogs')
             .send({ author: 'Test author', likes: 10 })
+            .set('Authorization', `Bearer ${token}`)
             .expect(400)
             .expect('Content-Type', /application\/json/)
         
         assert.ok(response.body.error)
     })
-})
-
-
-
-test('DELETE /api/blogs/:id removes a blog', async () => {
-    const blogToDelete = helper.blogsListAll[0]
-
-    await api
-       .delete(`/api/blogs/${blogToDelete._id}`)
-       .expect(204)
-
-    const response = await api.get('/api/blogs')
-
-    assert.strictEqual(response.body.length, helper.blogsListAll.length - 1)
-
-    const contents = response.body.map(r => r.title)
-    assert(!contents.includes(blogToDelete.title))
 })
 
 test('PUT /api/blogs/:id updates a blog', async () => {
@@ -151,6 +136,22 @@ test('PUT /api/blogs/:id updates a blog', async () => {
     assert.strictEqual(updatedBlogs.length, helper.blogsListAll.length)
 
     assert.strictEqual(updatedBlogs[0].likes, 15)
+})
+
+test('DELETE /api/blogs/:id removes a blog', async () => {
+    const blogToDelete = helper.blogsListAll[0]
+
+    await api
+       .delete(`/api/blogs/${blogToDelete._id}`)
+       .set('Authorization', `Bearer ${token}`)
+       .expect(204)
+
+    const response = await api.get('/api/blogs')
+
+    assert.strictEqual(response.body.length, helper.blogsListAll.length - 1)
+
+    const contents = response.body.map(r => r.title)
+    assert(!contents.includes(blogToDelete.title))
 })
 
 after(async () => {
