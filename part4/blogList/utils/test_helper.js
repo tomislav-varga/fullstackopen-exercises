@@ -104,12 +104,34 @@ const totalLikes = (blogs) => {
   return blogs.length === 0 ? 0 : blogs.reduce((sum, blog) => sum + blog.likes, 0)
 }
 
+const mostLikes = (blogs) => {
+  if (blogs.length === 0) {
+    return null
+  }
+  const maxLikes = Math.max(...blogs.map(blog => blog.likes))
+  const result = blogs.find(blog => blog.likes === maxLikes)
+  
+  return JSON.stringify({ author: result.author, likes: result.likes })
+}
+
 const favoriteBlog = (blogs) => {
   if (blogs.length === 0) {
     return null
   }
   const maxLikes = Math.max(...blogs.map(blog => blog.likes))
   return blogs.find(blog => blog.likes === maxLikes)
+}
+
+const mostBlogs = (blogs) => {
+  const blogCounts = blogs.reduce((counts, blog) => {
+    counts[blog.author] = (counts[blog.author] || 0) + 1
+    return counts
+  }, {})
+
+  const maxBlogs = Math.max(...Object.values(blogCounts))
+  const result = Object.entries(blogCounts).find(([_, count]) => count === maxBlogs)
+
+  return result ? JSON.stringify({ author: result[0], blogs: result[1] }) : null
 }
 
 const usersInDb = async () => {
@@ -124,6 +146,8 @@ module.exports = {
   blogsListAll,
   dummy,
   totalLikes,
+  mostLikes,
   favoriteBlog,
+  mostBlogs,
   usersInDb,
 }
