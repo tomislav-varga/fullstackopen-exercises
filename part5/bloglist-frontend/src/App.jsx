@@ -5,6 +5,7 @@ import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
+  const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '' })
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -50,6 +51,24 @@ const App = () => {
     setUser(null)
   }
 
+  const addBlog = (event) => {
+    event.preventDefault()
+    const newBlog = {
+      title: event.target.title.value,
+      author: event.target.author.value,
+      url: event.target.url.value,
+    }
+    blogService
+     .create(newBlog)
+     .then(returnedBlog => {
+        setBlogs(blogs.concat(returnedBlog))
+        setNewBlog('')
+      })
+     .catch(error => {
+        console.log('Error creating blog:', error.message)
+      })
+  }
+
   const loginForm = () => (      
     <>
       <h2>log in to application</h2>
@@ -81,10 +100,43 @@ const App = () => {
     <div>
       <h2>blogs</h2>
       <p>{user.name} logged in</p>
+      <br></br>
+      <button onClick={handleLogout}>logout</button>
+      <form onSubmit={addBlog}>
+      <h2>create new blog</h2>
+        <div>
+          title
+          <input
+            type="text"
+            value={newBlog.title}
+            name="title"
+            onChange={({ target }) => setNewBlog({...newBlog, title: target.value })}
+          />
+        </div>
+        <div>
+          author
+          <input
+            type="text"
+            value={newBlog.author}
+            name="author"
+            onChange={({ target }) => setNewBlog({...newBlog, author: target.value })}
+          />
+        </div>
+        <div>
+          url
+          <input
+            type="text"
+            value={newBlog.url}
+            name="url"
+            onChange={({ target }) => setNewBlog({...newBlog, url: target.value })}
+          />
+        </div>
+        <button type="submit">create</button>
+      </form>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
-      <button onClick={handleLogout}>logout</button>
+       
     </div>
   )
 
