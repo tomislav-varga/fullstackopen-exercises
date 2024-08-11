@@ -12,7 +12,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Impkb2UxMjMiLCJpZCI6IjY2YWU1MjRiNTg5NzAxN2RiNGZmNWJhMiIsImlhdCI6MTcyMjc1NjAyN30.8W44IG30p4PlLKuJvJ7ijfmUOdqZoluEvRzfodnGtAc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Impkb2U1IiwiaWQiOiI2NmI4OTQwMTk0NjA1NjFhMWVjYzA4NzUiLCJpYXQiOjE3MjMzNzQ5OTR9.aKMr9EfUX5fOLYgTn5v-30eZP12HAq-W8iSL2gszA4g
 
 {
     "title": "test",
@@ -24,16 +24,16 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Impkb
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Impkb2U1IiwiaWQiOiI2NmI4OTQwMTk0NjA1NjFhMWVjYzA4NzUiLCJpYXQiOjE3MjMzNzQ5OTR9.aKMr9EfUX5fOLYgTn5v-30eZP12HAq-W8iSL2gszA4g
+
 
 {
     "_id": "5a422aa71b54a676234d17f8",
     "title": "Go To Statement Considered Harmful",
     "author": "Edsger W. Dijkstra",
     "url": "https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf",
-    "likes": "5",
-    "__v": "0",
-    "user": "66ade5819e9c6418e16f3c4e"
-  }
+    "likes": "5"
+}
 ###
 POST http://localhost:3003/api/users
 Content-Type: application/json
@@ -55,7 +55,7 @@ Content-Type: application/json
   }
 ###
 
-POST http://localhost:3003/login
+POST http://localhost:3003/api/login
 Content-Type: application/json
 
 {
