@@ -1,16 +1,21 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import ErrorNotification from './components/ErrorNotifcation'
+import SuccessNotification from './components/SuccessNotification'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
+
 const App = () => {
+
   const [blogs, setBlogs] = useState([])
   const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '' })
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
-
+  const [successMessage, setSuccessMessage] = useState(null)
+  
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
     if (loggedUserJSON) {
@@ -39,7 +44,8 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('wrong credentials')
+      console.log('Error logging in:', exception.message)
+      setErrorMessage('Username or password is incorrect')
       setTimeout(() => {
         setErrorMessage(null)
       }, 4000)
@@ -63,15 +69,24 @@ const App = () => {
      .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
         setNewBlog('')
+        setSuccessMessage(`A new blog '${newBlog.title}' by author ${newBlog.author} added`)
+        setTimeout(() => {
+          setSuccessMessage(null)
+        }, 4000)
       })
      .catch(error => {
         console.log('Error creating blog:', error.message)
+        setErrorMessage('Failed to create blog', error.message)
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 4000)
       })
   }
 
   const loginForm = () => (      
     <>
       <h2>log in to application</h2>
+      <ErrorNotification message={errorMessage} />
       <form onSubmit={handleLogin}>
         <div>
           username
@@ -99,9 +114,11 @@ const App = () => {
   const loggedInView = () => (
     <div>
       <h2>blogs</h2>
-      <p>{user.name} logged in</p>
-      <br></br>
-      <button onClick={handleLogout}>logout</button>
+      <ErrorNotification message={errorMessage} />
+      <SuccessNotification message={successMessage} />
+      <p>{user.name} logged in
+        <button onClick={handleLogout}>logout</button>
+      </p>
       <form onSubmit={addBlog}>
       <h2>create new blog</h2>
         <div>
