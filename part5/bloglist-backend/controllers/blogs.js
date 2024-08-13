@@ -58,6 +58,39 @@ blogRouter.post('/', middleware.userExtractor, async (request, response) => {
   }
 })
 
+blogRouter.put('/:id', middleware.userExtractor, async (req, res, next) => {
+  const decodedToken = jwt.verify(req.token, process.env.SECRET)
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' })
+  }
+
+  const userExists = req.user
+
+  const { title, author, url, likes } = req.body
+
+  if (likes === undefined) {
+    return res.status(400).json({ error: 'Likes must be provided' })
+  }
+
+  try {
+    const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, { 
+      title: title,
+      author: author,
+      url: url,
+      likes: likes !== undefined ? likes + 1 : req.body.likes + 1,
+      user: userExists.id
+    }, { new: true })
+
+    if (updatedBlog) {
+      res.json(updatedBlog)
+    } else {
+      res.status(404).end()
+    }
+  } catch (error) {
+    next(error)
+  }
+})
+
 blogRouter.delete('/:id', middleware.userExtractor, async (req, res, next) => {
   const decodedToken = jwt.verify(req.token, process.env.SECRET)
   if (!decodedToken.id) {

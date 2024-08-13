@@ -81,6 +81,26 @@ const App = () => {
       })
   }  
 
+  const updateBlog = (blog) => {
+    console.log('Updating blog:', blog)
+    blogService
+     .update(blog)
+     .then(returnedBlog => {
+        setBlogs(blogs.map(b => b.id === blog.id? returnedBlog : b))
+        setSuccessMessage(`Blog '${returnedBlog.title}' by author ${returnedBlog.author} updated`)
+        setTimeout(() => {
+          setSuccessMessage(null)
+        }, 4000)
+      })
+     .catch(error => {
+        console.log('Error updating blog:', error.message)
+        setErrorMessage('Failed to update blog', error.message)
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 4000)
+      })
+  }
+
   const loginForm = () => (      
     <>
       <h2>log in to application</h2>
@@ -121,7 +141,7 @@ const App = () => {
         <BlogForm createBlog={addBlog} />
       </Togglable>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} updateBlog={updateBlog}/>
       )}
        
     </div>

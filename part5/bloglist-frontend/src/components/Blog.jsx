@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, updateBlog }) => {
   const [showDetails, setShowDetails] = useState(false)
+  const [likes, setLikes] = useState(blog.likes);
 
   const blogStyle = {
     paddingTop: 10,
@@ -15,6 +16,12 @@ const Blog = ({ blog }) => {
     setShowDetails(!showDetails);
   }
 
+  const handleLike = (event) => {
+    event.preventDefault()
+    const updatedBlog = {...blog, likes: setLikes(likes + 1)}
+    updateBlog(updatedBlog)
+  }
+
   return (
     <div style={blogStyle}>
       <p>{blog.title} by {blog.author}
@@ -24,8 +31,8 @@ const Blog = ({ blog }) => {
       {showDetails && (
         <div>
           <p>{blog.url}</p>
-          <p>Likes: {blog.likes} 
-            <button onClick=""> Like</button>
+          <p>Likes: {likes} 
+            <button onClick={handleLike}> Like</button>
           </p>
         </div>
       )}
