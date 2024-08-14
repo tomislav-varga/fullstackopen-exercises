@@ -29,7 +29,7 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs( blogs )
+      setBlogs( blogs.sort((a, b) => b.likes - a.likes) )
     )  
   }, [])
 
@@ -59,25 +59,23 @@ const App = () => {
     setUser(null)
   }
 
-  const addBlog = (newBlog) => {
-    blogService
-     .create(newBlog)
-     .then(returnedBlog => {
-        setBlogs(blogs.concat(returnedBlog))
-        setNewBlog('')
-        setSuccessMessage(`A new blog '${newBlog.title}' by author ${newBlog.author} added`)
-        setTimeout(() => {
-          setSuccessMessage(null)
-        }, 4000)
-      })
-     .catch(error => {
-        console.log('Error creating blog:', error.message)
-        setErrorMessage('Failed to create blog', error.message)
-        setTimeout(() => {
-          setErrorMessage(null)
-        }, 4000)
-      })
-  }  
+  const addBlog = async (newBlog) => {
+    try {
+      const returnedBlog = await blogService.create(newBlog)
+      setBlogs(blogs.concat(returnedBlog))
+      setNewBlog('')
+      setSuccessMessage(`A new blog '${newBlog.title}' by author ${newBlog.author} added`)
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 4000)
+    } catch (error) {
+      console.log('Error creating blog:', error.message)
+      setErrorMessage('Failed to create blog', error.message)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 4000)
+    }
+}  
 
   const updateBlog = async (blog, user) => {
     console.log('Updating blog:', blog)
