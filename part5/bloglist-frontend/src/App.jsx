@@ -17,8 +17,6 @@ const App = () => {
   const [successMessage, setSuccessMessage] = useState(null)
   const [blogs, setBlogs] = useState([])
   const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '' })
-
-
   
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
@@ -81,25 +79,25 @@ const App = () => {
       })
   }  
 
-  const updateBlog = (blog) => {
+  const updateBlog = async (blog, user) => {
     console.log('Updating blog:', blog)
-    blogService
-     .update(blog.id, blog)
-     .then(returnedBlog => {
-        setBlogs(blogs.map(b => b.id === blog.id? returnedBlog : b))
-        setSuccessMessage(`Blog '${returnedBlog.title}' by author ${returnedBlog.author} updated`)
-        setTimeout(() => {
-          setSuccessMessage(null)
-        }, 4000)
-      })
-     .catch(error => {
-        console.log('Error updating blog:', error.message)
-        setErrorMessage('Failed to update blog', error.message)
-        setTimeout(() => {
-          setErrorMessage(null)
-        }, 4000)
-      })
+  
+    try {
+      const returnedBlog = await blogService.update(blog.id, blog)
+      setBlogs(blogs.map(b => b.id === blog.id ? returnedBlog : b))
+      setSuccessMessage(`Likes of Blog '${returnedBlog.title}' by author ${returnedBlog.author} updated`)
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 4000)
+    } catch (error) {
+      console.log('Error updating blog:', error.message)
+      setErrorMessage('Failed to update blog')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 4000)
+    }
   }
+
 
   const loginForm = () => (      
     <>
@@ -141,7 +139,7 @@ const App = () => {
         <BlogForm createBlog={addBlog} />
       </Togglable>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} updateBlog={updateBlog}/>
+        <Blog key={blog.id} blog={blog} updateBlog={updateBlog} user={user}/>
       )}
        
     </div>

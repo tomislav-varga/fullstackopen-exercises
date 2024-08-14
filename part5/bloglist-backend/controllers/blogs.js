@@ -77,7 +77,7 @@ blogRouter.put('/:id', middleware.userExtractor, async (req, res, next) => {
       title: title,
       author: author,
       url: url,
-      likes: likes !== undefined ? likes : 0,
+      likes: likes,
       user: userExists.id
     }, { new: true })
 
