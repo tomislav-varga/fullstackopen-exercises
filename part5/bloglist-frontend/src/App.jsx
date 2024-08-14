@@ -84,7 +84,7 @@ const App = () => {
   const updateBlog = (blog) => {
     console.log('Updating blog:', blog)
     blogService
-     .update(blog)
+     .update(blog.id, blog)
      .then(returnedBlog => {
         setBlogs(blogs.map(b => b.id === blog.id? returnedBlog : b))
         setSuccessMessage(`Blog '${returnedBlog.title}' by author ${returnedBlog.author} updated`)

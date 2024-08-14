@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 const Blog = ({ blog, updateBlog }) => {
   const [showDetails, setShowDetails] = useState(false)
-  const [likes, setLikes] = useState(blog.likes);
 
   const blogStyle = {
     paddingTop: 10,
@@ -18,7 +17,7 @@ const Blog = ({ blog, updateBlog }) => {
 
   const handleLike = (event) => {
     event.preventDefault()
-    const updatedBlog = {...blog, likes: setLikes(likes + 1)}
+    const updatedBlog = {...blog, likes: blog.likes + 1}
     updateBlog(updatedBlog)
   }
 
@@ -31,9 +30,10 @@ const Blog = ({ blog, updateBlog }) => {
       {showDetails && (
         <div>
           <p>{blog.url}</p>
-          <p>Likes: {likes} 
+          <p>Likes: {blog.likes} 
             <button onClick={handleLike}> Like</button>
           </p>
+          <p>{blog.user.name}</p>
         </div>
       )}
     </div>
