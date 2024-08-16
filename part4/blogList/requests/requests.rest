@@ -24,7 +24,21 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Impkb
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Impkb2U1IiwiaWQiOiI2NmI4OTQwMTk0NjA1NjFhMWVjYzA4NzUiLCJpYXQiOjE3MjMzNzQ5OTR9.aKMr9EfUX5fOLYgTn5v-30eZP12HAq-W8iSL2gszA4g
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1raW5nMDEiLCJpZCI6IjY2YmNiNTY1ZjAxNDQyYzZhNmJhNjcxMCIsImlhdCI6MTcyMzY0MzI1Nn0.Ob-gTzBC7DZa8ZVTOb6WbjUDFlbK4f6-raT5viTS1Pg
+
+
+{
+    "_id": "5a422a851b54a676234d17f7",
+    "title": "React patterns",
+    "author": "Michael Chan",
+    "url": "https://reactpatterns.com/",
+    "likes": 7
+}
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1raW5nMDEiLCJpZCI6IjY2YmNiNTY1ZjAxNDQyYzZhNmJhNjcxMCIsImlhdCI6MTcyMzY0MzI1Nn0.Ob-gTzBC7DZa8ZVTOb6WbjUDFlbK4f6-raT5viTS1Pg
 
 
 {
@@ -32,7 +46,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Impkb
     "title": "Go To Statement Considered Harmful",
     "author": "Edsger W. Dijkstra",
     "url": "https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf",
-    "likes": "5"
+    "likes": 5
 }
 ###
 POST http://localhost:3003/api/users
@@ -61,6 +75,26 @@ Content-Type: application/json
 {
     "username": "jdoe5",
     "name": "Jane Doe",
+    "password": "qwerty123"
+  }
+###
+
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "mking01",
+    "name": "Michael King",
+    "password": "qwerty123"
+  }
+###
+
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+    "username": "mking01",
+    "name": "Michael King",
     "password": "qwerty123"
   }
 ###

@@ -59,7 +59,7 @@ const App = () => {
     setUser(null)
   }
 
-  const addBlog = async (newBlog) => {
+  const addBlog = async (newBlog, user) => {
     try {
       const returnedBlog = await blogService.create(newBlog)
       setBlogs(blogs.concat(returnedBlog))
@@ -90,6 +90,23 @@ const App = () => {
     } catch (error) {
       console.log('Error updating blog:', error.message)
       setErrorMessage('Failed to update blog')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 4000)
+    }
+  }
+
+  const deleteBlog = async (id) => {
+    try {
+      await blogService.remove(id)
+      setBlogs(blogs.filter(b => b.id!== id))
+      setSuccessMessage(`Blog deleted`)
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 4000)
+    } catch (error) {
+      console.log('Error deleting blog:', error.message)
+      setErrorMessage('Failed to delete blog')
       setTimeout(() => {
         setErrorMessage(null)
       }, 4000)
@@ -134,10 +151,10 @@ const App = () => {
       <button onClick={handleLogout}>logout</button>
       </p>
       <Togglable buttonLabel='add new blog'>
-        <BlogForm createBlog={addBlog} />
+        <BlogForm createBlog={addBlog} user={user}/>
       </Togglable>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} updateBlog={updateBlog} user={user}/>
+        <Blog key={blog.id} blog={blog} updateBlog={updateBlog} deleteBlog={deleteBlog} user={user}/>
       )}
        
     </div>
