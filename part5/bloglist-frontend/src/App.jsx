@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import Blog from './components/Blog'
 import ErrorNotification from './components/ErrorNotifcation'
 import SuccessNotification from './components/SuccessNotification'
@@ -141,6 +142,13 @@ const App = () => {
       </form>
     </>
   )
+  loginForm.propTypes = {
+    handleSubmit: PropTypes.func.isRequired,
+    handleUsernameChange: PropTypes.func.isRequired,
+    handlePasswordChange: PropTypes.func.isRequired,
+    username: PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired
+  }
 
   const loggedInView = () => (
     <div>
