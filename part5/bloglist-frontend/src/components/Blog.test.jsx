@@ -1,4 +1,3 @@
-import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import Blog from './Blog'
 
@@ -17,13 +16,8 @@ test('renders blog title and author', () => {
     const user = {
         id: 'testuser'
     }
-    console.log(blog)
 
     const { container } = render(<Blog blog={blog} user={user}/>)
-
-    screen.debug(container)
-
-    console.log(container)
 
     const p = container.querySelector('.blog-header')
     expect(p).toHaveTextContent(
