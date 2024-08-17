@@ -30,10 +30,11 @@ const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
 
   return (
     <div style={blogStyle}>
-      <p>{blog.title} by {blog.author}
-        <button onClick={toggleDetails}> {showDetails ? 'Hide' : 'View'}</button>
-      </p>
-      
+      <div>
+        <p className="blog-header">{blog.title} by {blog.author}
+          <button onClick={toggleDetails}> {showDetails ? 'Hide' : 'View'}</button>
+        </p>
+      </div>
       {showDetails && (
         <div>
           <p>{blog.url}</p>

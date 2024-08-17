@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
 import Blog from './components/Blog'
+import LoginForm from './components/LoginForm'
 import ErrorNotification from './components/ErrorNotifcation'
 import SuccessNotification from './components/SuccessNotification'
 import BlogForm from './components/BlogForm'
@@ -114,42 +114,6 @@ const App = () => {
     }
   }
 
-
-  const loginForm = () => (      
-    <>
-      <h2>log in to application</h2>
-      <ErrorNotification message={errorMessage} />
-      <form onSubmit={handleLogin}>
-        <div>
-          username
-          <input
-            type="text"
-            value={username}
-            name="Username"
-            onChange={({ target }) => setUsername(target.value)}
-          />
-        </div>
-        <div>
-          password
-          <input
-            type="password"
-            value={password}
-            name="Password"
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </div>
-        <button type="submit">login</button>
-      </form>
-    </>
-  )
-  loginForm.propTypes = {
-    handleSubmit: PropTypes.func.isRequired,
-    handleUsernameChange: PropTypes.func.isRequired,
-    handlePasswordChange: PropTypes.func.isRequired,
-    username: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired
-  }
-
   const loggedInView = () => (
     <div>
       <h2>blogs</h2>
@@ -170,7 +134,14 @@ const App = () => {
 
   return (
     <div>
-      {!user && loginForm()}
+      {!user && <LoginForm 
+                  handleSubmit={handleLogin} 
+                  handleUsernameChange={setUsername} 
+                  handlePasswordChange={setPassword} 
+                  username={username} 
+                  password={password} 
+                  errorMessage={errorMessage} 
+                />}
       {user && loggedInView()}
     </div>
   )
