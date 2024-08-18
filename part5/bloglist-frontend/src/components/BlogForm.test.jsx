@@ -8,7 +8,7 @@ test('BlogForm calls event handler with correct details when new blog is created
         createBlog.current = blogObject
     }
 
-    const { container } = render(<BlogForm createBlog={onCreateBlog} />)
+    render(<BlogForm createBlog={onCreateBlog} />)
 
     const titleInput = screen.getByLabelText('title')
     const authorInput = screen.getByLabelText('author')
