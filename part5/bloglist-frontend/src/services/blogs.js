@@ -39,10 +39,16 @@ const remove = async id => {
   return response.data
 }
 
+  const getUser = async id => {
+    const response = await axios.get(`/api/users/${id}`)
+    return response.data
+  }
+
 export default { 
   getAll,
   setToken,
   create,
   update,
-  remove
+  remove,
+  getUser
 }

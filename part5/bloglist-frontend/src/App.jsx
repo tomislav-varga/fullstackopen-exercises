@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import ErrorNotification from './components/ErrorNotifcation'
@@ -33,6 +33,9 @@ const App = () => {
       setBlogs( blogs.sort((a, b) => b.likes - a.likes) )
     )  
   }, [])
+
+  const blogFormRef = useRef()
+
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -122,7 +125,7 @@ const App = () => {
       <p>{user.name} logged in
       <button onClick={handleLogout}>logout</button>
       </p>
-      <Togglable buttonLabel='add new blog'>
+      <Togglable buttonLabel='add new blog' ref={blogFormRef}>
         <BlogForm createBlog={addBlog} user={user}/>
       </Togglable>
       {blogs.map(blog =>
