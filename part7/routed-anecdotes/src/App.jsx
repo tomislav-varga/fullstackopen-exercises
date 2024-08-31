@@ -65,7 +65,7 @@ const CreateNew = (props) => {
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
-
+  const navigate = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -75,6 +75,7 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+    navigate('/')
   }
 
   return (
@@ -97,7 +98,6 @@ const CreateNew = (props) => {
       </form>
     </div>
   )
-
 }
 
 const App = () => {
@@ -123,6 +123,10 @@ const App = () => {
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
     setAnecdotes(anecdotes.concat(anecdote))
+    setNotification(`A new anecdote "${anecdote.content}" created!`)
+    setTimeout(() => {
+      setNotification('')
+    }, 5000)
   }
 
   const anecdoteById = (id) =>
@@ -143,6 +147,13 @@ const App = () => {
     padding: 5
   }
 
+  const successNotification = {
+    backgroundColor:'green',
+    color:'white',
+    padding:10,
+    borderRadius:5
+  }
+
 return (
   <div>
     <div>
@@ -150,7 +161,7 @@ return (
       <Link to='/create' style={padding}>create new</Link>
       <Link to='/about' style={padding}>about</Link>
     </div>
-    {notification && <div style={{ color:'red' }}>{notification}</div>}
+    {notification && <div style={successNotification}>{notification}</div>}
     <Routes>
       <Route path='/' element={<AnecdoteList anecdotes={anecdotes} />} />
       <Route path='/create' element={<CreateNew addNew={addNew} />} />
