@@ -1,4 +1,14 @@
 import { useState } from 'react'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  Navigate,
+  useParams,
+  useNavigate,
+  useMatch
+} from "react-router-dom"
 
 const Menu = () => {
   const padding = {
@@ -122,16 +132,41 @@ const App = () => {
     setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
   }
 
-  return (
+  const padding = {
+    padding: 5
+  }
+
+return (
+  <div>
     <div>
-      <h1>Software anecdotes</h1>
-      <Menu />
-      <AnecdoteList anecdotes={anecdotes} />
-      <About />
-      <CreateNew addNew={addNew} />
-      <Footer />
+      <Link to='/' style={padding}>anecdotes</Link>
+      <Link to='/create' style={padding}>create new</Link>
+      <Link to='/about' style={padding}>about</Link>
     </div>
-  )
+    {notification && <div style={{ color:'red' }}>{notification}</div>}
+    <Routes>
+      <Route path='/' element={<AnecdoteList anecdotes={anecdotes} />} />
+      <Route path='/create' element={<CreateNew addNew={addNew} />} />
+      <Route path='/about' element={<About />} />
+      <Route path='/anecdote/:id' element={({ match }) => {
+        const anecdote = anecdoteById(parseInt(match.params.id))
+        if (anecdote) {
+          return (
+            <div>
+              <h2>{anecdote.content}</h2>
+              <p>by {anecdote.author}</p>
+              <p>{anecdote.info}</p>
+              <button onClick={() => vote(anecdote.id)}>vote</button>
+            </div>
+          )
+        } else {
+          return <Navigate to='/' />
+        }
+      }} />
+    </Routes>
+    <Footer />
+  </div>
+)
 }
 
 export default App
