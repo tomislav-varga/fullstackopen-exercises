@@ -1,4 +1,6 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const SuccessNotification = ({ message }) => {
 
@@ -11,6 +13,9 @@ const SuccessNotification = ({ message }) => {
             {message}
         </div>
     )
+}
+SuccessNotification.propTypes = {
+    message: PropTypes.string
 }
 
 export default SuccessNotification

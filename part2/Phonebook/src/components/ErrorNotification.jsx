@@ -1,4 +1,6 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const ErrorNotification = ({ message }) => {
 
@@ -11,6 +13,9 @@ const ErrorNotification = ({ message }) => {
             {message}
         </div>
     )
+}
+ErrorNotification.propTypes = {
+    message: PropTypes.string
 }
 
 export default ErrorNotification
