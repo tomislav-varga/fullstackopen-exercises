@@ -27,16 +27,18 @@ const calculateBMI = (height: number, weight: number): string => {
     return classification;
 };
 
-try {
-    const {height, weight} = parseArguments(process.argv);
-    const bmiClassification = calculateBMI(height, weight);
-    console.log(`Your BMI is: ${bmiClassification}`);
-} catch (error: unknown) {
-    let errorMessage = 'Something bad happened.'
-    if (error instanceof Error) {
-      errorMessage += ' Error: ' + error.message;
+if (require.main === module) {
+    try {
+        const {height, weight} = parseArguments(process.argv);
+        const bmiClassification = calculateBMI(height, weight);
+        console.log(`Your BMI is: ${bmiClassification}`);
+    } catch (error: unknown) {
+        let errorMessage = 'Something bad happened.'
+        if (error instanceof Error) {
+          errorMessage += ' Error: ' + error.message;
+        }
+        console.log(errorMessage);
     }
-    console.log(errorMessage);
-  }
+}
 
   export default calculateBMI;
