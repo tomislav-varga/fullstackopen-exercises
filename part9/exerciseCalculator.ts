@@ -59,16 +59,18 @@ interface ExerciseResult {
     };
   };
   
-  try {
-    const { target, dailyExerciseHours } = parseArguments(process.argv);
-    const result = calculateExercises(dailyExerciseHours, target);
-    console.log(result);
-  } catch (error: unknown) {
-    let errorMessage = 'An error occurred: ';
-    if (error instanceof Error) {
-      errorMessage += error.message;
+  if (require.main === module) {
+    try {
+      const { target, dailyExerciseHours } = parseArguments(process.argv);
+      const result = calculateExercises(dailyExerciseHours, target);
+      console.log(result);
+    } catch (error: unknown) {
+      let errorMessage = 'An error occurred: ';
+      if (error instanceof Error) {
+        errorMessage += error.message;
+      }
+      console.log(errorMessage);
     }
-    console.log(errorMessage);
   }
   
   export default calculateExercises;
