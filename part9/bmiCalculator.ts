@@ -33,7 +33,7 @@ if (require.main === module) {
         const bmiClassification = calculateBMI(height, weight);
         console.log(`Your BMI is: ${bmiClassification}`);
     } catch (error: unknown) {
-        let errorMessage = 'Something bad happened.'
+        let errorMessage = 'Something bad happened.';
         if (error instanceof Error) {
           errorMessage += ' Error: ' + error.message;
         }
