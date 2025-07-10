@@ -1,6 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 
+import { Diagnosis } from '../types';
+import diagnoses from '../data/diagnoses';
+
 const app = express();
 
 app.use(cors());
@@ -14,6 +17,11 @@ app.get('/api/ping', (_req, res) => {
 app.get('/api/patients', (_req, res) => {
   console.log('fetching patients');
   res.json([]);
+});
+
+app.get('/api/diagnoses', (_req, res) => {
+  console.log('fetching diagnoses');
+  res.json(diagnoses as Diagnosis[]);
 });
 
 const PORT = 3003;
