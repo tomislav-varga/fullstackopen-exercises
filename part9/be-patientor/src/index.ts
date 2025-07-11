@@ -1,8 +1,8 @@
 import express from 'express';
 import cors from 'cors';
-
-import { Diagnosis } from '../types';
+import { Diagnosis, NonSensitivePatient, Patient } from '../types';
 import diagnoses from '../data/diagnoses';
+import patients from '../data/patients';
 
 const app = express();
 
@@ -16,7 +16,8 @@ app.get('/api/ping', (_req, res) => {
 
 app.get('/api/patients', (_req, res) => {
   console.log('fetching patients');
-  res.json([]);
+  const nonSensitivePatients: NonSensitivePatient[] = (patients as Patient[]).map(({ ssn: _ssn, ...rest }) => rest);
+  res.json(nonSensitivePatients);
 });
 
 app.get('/api/diagnoses', (_req, res) => {
