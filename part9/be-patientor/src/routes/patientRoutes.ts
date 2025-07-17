@@ -1,27 +1,48 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import patientService from '../services/patientService';
-import toNewPatient from '../utils';
+import { NewPatientSchema } from '../utils';
+import { z } from 'zod';
+import { NewPatientEntry, Patient } from '../types';
+
 
 const router = express.Router();
 
-router.get('/', (_req, res) => {
+router.get('/', (_req, res: Response<Patient[]>) => {
     console.log('fetching patients');
     res.json(patientService.getNonSensitivePatients());
 });
 
-router.post('/', (req, res) => {
-    try {
-
-        const newPatient = toNewPatient(req.body);
-
-        const addedPatient = patientService.addPatient(patientService.getPatients(), newPatient);
-        res.status(201).json(addedPatient);
-    } catch (error: unknown) {
-        if (error instanceof Error) {
-            console.error(error.message);
-        }
-        res.status(400).json({ error: 'Something went wrong' });
+router.get('/:id', (req, res: Response<Patient | { error: string }>) => {
+    const patient = patientService.findById(req.params.id);
+    if (!patient) {
+        return res.status(404).send({ error: 'Patient not found' });
     }
+    return res.json(patient);
 });
+
+const newPatientParser = (req: Request, _res: Response, next: NextFunction) => {
+    try {
+        NewPatientSchema.parse(req.body);
+        console.log(req.body);
+        next();
+    } catch (error: unknown) {
+        next(error);
+    }
+};
+
+const errorMiddleware = (error: unknown, _req: Request, res: Response, next: NextFunction) => {
+    if (error instanceof z.ZodError) {
+        res.status(400).send({ error: error.issues });
+    } else {
+        next(error);
+    }
+};
+
+router.post('/', newPatientParser, (req: Request<unknown, unknown, NewPatientEntry>, res: Response<Patient>) => {
+    const addedPatient = patientService.addPatient(patientService.getPatients(), req.body);
+    res.json(addedPatient);
+});
+
+router.use(errorMiddleware);
 
 export default router;
