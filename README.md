@@ -19,7 +19,7 @@ This repository includes my solutions for various parts of the course that I've 
 - [**Part 7**](./part7): React router, custom hooks, styling app with CSS and webpack
 - [**Part 9**](./part9): TypeScript
 - [**Part 10**](https://github.com/tomislav-varga/fso-part10-rate-repository-app): React Native - Rate Repository App
-- [**Part 11**](./part11): CI/CD
+- [**Part 11**](https://github.com/tomislav-varga/full-stack-open-pokedex): CI/CD
 
 Each part contains multiple exercises that progressively build upon previous concepts, creating a comprehensive learning experience.
 
