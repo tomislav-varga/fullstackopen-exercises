@@ -2,20 +2,17 @@ import { useState } from "react";
 import { Box, Table, Button, TableHead, Typography, TableCell, TableRow, TableBody, Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import axios from 'axios';
-
 import { PatientFormValues, Patient } from "../../types";
 import AddPatientModal from "../AddPatientModal";
-
 import HealthRatingBar from "../HealthRatingBar";
-
 import patientService from "../../services/patients";
 
 interface Props {
-  patients : Patient[]
+  patients: Patient[]
   setPatients: React.Dispatch<React.SetStateAction<Patient[]>>
 }
 
-const PatientListPage = ({ patients, setPatients } : Props ) => {
+const PatientListPage = ({ patients, setPatients }: Props) => {
 
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [error, setError] = useState<string>();
