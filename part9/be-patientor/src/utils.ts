@@ -5,7 +5,7 @@ import z from 'zod';
 export const NewPatientSchema= z.object({
         name: z.string(),
         dateOfBirth: z.string(),
-        ssn: z.string().optional(),
+        ssn: z.string(),
         gender: z.enum([Gender.male, Gender.female, Gender.other]),
         occupation: z.string()
     });

@@ -2,7 +2,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { NonSensitivePatient, Patient } from "../types";
 import patientsData from '../../data/patients';
 
-const patients: Patient[] = patientsData as Patient[];
+// Ensure all patients have entries array
+const patients: Patient[] = (patientsData as Patient[]).map(patient => ({
+  ...patient
+}));
 
 const addPatient = (patients: Patient[], newPatient: Omit<Patient, 'id'>): Patient => {
   const patientWithId: Patient = {
@@ -23,7 +26,7 @@ const findById = (id: string): Patient | undefined => {
 
 const getNonSensitivePatients = (): NonSensitivePatient[] => {
   return patients.map(({ ssn: _ssn, ...rest }) => rest);
-  
+
 };
 
 const getPatients = (): Patient[] => {
