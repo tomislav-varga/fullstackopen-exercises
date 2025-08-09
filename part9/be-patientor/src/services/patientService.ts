@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
 import { NonSensitivePatient, Patient } from "../types";
-import patientsData from '../../data/patients';
+import patientsData from '../../data/patients-full';
 
 // Ensure all patients have entries array
-const patients: Patient[] = (patientsData as Patient[]).map(patient => ({
+const patients: Patient[] = (patientsData).map(patient => ({
   ...patient
 }));
 
