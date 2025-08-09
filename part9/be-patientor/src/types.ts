@@ -8,9 +8,9 @@ export interface Diagnosis {
 }
 
 export enum Gender {
-  male = 'male',
-  female = 'female',
-  other = 'other',
+  Male = 'male',
+  Female = 'female',
+  Other = 'other',
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type

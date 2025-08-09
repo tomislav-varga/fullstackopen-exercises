@@ -18,10 +18,7 @@ const addPatient = (patients: Patient[], newPatient: Omit<Patient, 'id'>): Patie
 
 const findById = (id: string): Patient | undefined => {
   const patientWithId = patients.find(patient => patient.id === id);
-  if (!patientWithId) {
-    throw new Error(`Patient with id ${id} not found`);
-  }
-  return patientWithId;
+  return patientWithId; 
 };
 
 const getNonSensitivePatients = (): NonSensitivePatient[] => {
