@@ -12,7 +12,6 @@ import {
   List,
   ListItem,
   ListItemText,
-  Paper,
 } from '@mui/material';
 import {
   Person as PersonIcon,
@@ -24,6 +23,7 @@ import {
 
 import { Patient, Entry } from '../../types';
 import patientService from '../../services/patients';
+import EntryDetails from '../PatientEntryDetails/EntryDetails';
 
 const PatientPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -177,19 +177,8 @@ const PatientPage = () => {
           
           {patient.entries && patient.entries.length > 0 ? (
             <Box>
-              {patient.entries.map((entry: Entry, index: number) => (
-                <Paper key={index} elevation={1} sx={{ p: 2, mb: 2 }}>
-                  <Typography variant="body2" color="text.secondary">
-                    Entry #{index + 1}
-                  </Typography>
-                  {/* Add entry details here when Entry interface is fully defined */}
-                  <Typography variant="body2">
-                    Entry details will be displayed here once the Entry interface is fully implemented.
-                  </Typography>
-                  <Typography variant="caption" color="text.secondary">
-                    Entry data: {JSON.stringify(entry)}
-                  </Typography>
-                </Paper>
+              {patient.entries.map((entry: Entry) => (
+                <EntryDetails key={entry.id} entry={entry} />
               ))}
             </Box>
           ) : (
